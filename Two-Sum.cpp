@@ -1,11 +1,3 @@
-#include <unordered_map>
-
-using namespace std;
-
-
-//hash_map<nums, index of the nums> 
-//we can check if nums exist in the hash if not we will put it there.
-
 
 class Solution {
 public:

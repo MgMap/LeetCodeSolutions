@@ -1,70 +1,34 @@
-
-
 class Solution {
 public:
-    void BFS(vector<vector<char>>& grid, int r, int c)
+    
+    void dfs(int row, int col, int m, int n, vector<vector<char>>& grid)
     {
-        int n = grid.size()-1;
-        int m = grid[0].size()-1;
-
-        queue<pair<int,int>> q;
-        q.push({r,c});
-        grid[r][c] = '0';
-        vector<pair<int,int>> dir = {{1,0}, {-1,0}, {0,1}, {0,-1}};
-
-        while(!q.empty())
-        {
-            int x = q.front().first;
-            int y = q.front().second;
-            q.pop();
-
-            for(auto [dx, dy] : dir)
-            {
-                int newX = x + dx;
-                int newY = y + dy;
-
-                if(newX >= 0 && newX <= n && newY >= 0 && newY <=m && grid[newX][newY] == '1')
-                {
-                    grid[newX][newY] = '0';
-                    q.push({newX, newY});
-                }
-            }
-        }
-    }
-
-    void DFSre(vector<vector<char>>& grid, int r, int c)
-    {
-        int n = grid.size()-1;
-        int m = grid[0].size() -1;
-
-
-        if(r < 0 || r > n || c < 0 || c > m || grid[r][c] == '0')
-        {
+        if( row < 0 || row >= m || col < 0 || col >= n || grid[row][col] == '0')
             return;
-        }
-        grid[r][c] = '0';
+        
+        grid[row][col] = '0';
 
-        DFSre(grid, r -1, c);
-        DFSre(grid, r+1, c);
-        DFSre(grid, r, c+1);
-        DFSre(grid, r, c-1);
+        dfs(row, col + 1, m, n , grid);
+        dfs(row + 1, col, m, n, grid);
+        dfs(row, col - 1, m, n, grid);
+        dfs(row - 1, col, m, n, grid);
     }
     int numIslands(vector<vector<char>>& grid) {
-        int n = grid.size()-1;
-        int m = grid[0].size()-1;
+        int m = grid.size();
+        int n = grid[0].size();
 
-        int counter = 0;
-        for(int r = 0; r <= n; r++)
+        int island_count = 0;
+        for(int i = 0; i < m; i++)
         {
-            for(int c = 0; c <= m; c++)
+            for(int j = 0; j < n; j++)
             {
-                if(grid[r][c] == '1')
+                if(grid[i][j] == '1')
                 {
-                    DFSre(grid, r, c);
-                    counter++;
+                    dfs(i, j, m ,n, grid);
+                    island_count++;
                 }
             }
         }
-        return counter;
+        return island_count;
     }
 };

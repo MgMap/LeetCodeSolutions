@@ -1,28 +1,39 @@
-#include <algorithm> // Required for std::max
-using namespace std;
+/*
+
+plan
+two pointers 
+point to the left and right
+calculate the area
+
+compare left and right
+if left is less
+move left 
+if right is less
+move right
+*/
+
 class Solution {
 public:
-    int maxArea(vector<int>& height) 
-    {
+    int maxArea(vector<int>& heights) {
+        int max_water = 0;
+
         int left = 0;
-        int right = height.size()-1;
-        int max_area = 0;
+        int right = heights.size()-1;
+
         while(left < right)
         {
+            int height = min(heights[left], heights[right]);
             int width = right - left;
-            int height1 = min(height[left], height[right]);
-            int area = width * height1;
-            max_area = max(max_area, area);
+            int area = height * width;
 
-            if(height[left] > height[right])
-            {
-                right--;
-            }
-            else
-            {
+            max_water = max(max_water, area);
+
+            if(heights[left] < heights[right])
                 left++;
-            }
+            else
+                right--;
         }
-        return max_area;
+        return max_water;
+
     }
 };
